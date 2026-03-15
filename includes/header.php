@@ -66,4 +66,4 @@
   </div>
 </nav>
 
-<main class="flex-grow max-w-5xl mx-auto px-4 py-8 w-full">
+<main class="flex-grow max-w-5xl mx-auto px-4 py-8 w-full">"<!-- header -->" 
