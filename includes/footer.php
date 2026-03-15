@@ -3,4 +3,4 @@
   &copy; <?= date('Y') ?> VoteApp — Built with PHP + MySQL + Tailwind CSS
 </footer>
 </body>
-</html>"<!-- footer -->" 
+</html>

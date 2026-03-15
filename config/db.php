@@ -15,4 +15,4 @@ try {
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,   false);
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
-}"<?php // Database Configuration - VoteApp" 
+}
