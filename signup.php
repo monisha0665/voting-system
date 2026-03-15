@@ -89,4 +89,4 @@ require 'includes/header.php';
     <a href="login.php" class="text-indigo-600 hover:underline">Login</a>
   </p>
 </div>
-<?php require 'includes/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>"<!-- signup -->" 
