@@ -1,4 +1,5 @@
 <?php
+// Home page - shows active and upcoming elections
 session_start();
 require 'config/db.php';
 $page_title = 'Home - VoteApp';
