@@ -1,4 +1,5 @@
 <?php
+// Profile page - edit info and change password
 session_start();
 require 'config/db.php';
 require 'includes/auth_guard.php';
