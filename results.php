@@ -1,4 +1,5 @@
 <?php
+// Results page - live chart with auto refresh
 session_start();
 require 'config/db.php';
 $page_title  = 'Live Results';
