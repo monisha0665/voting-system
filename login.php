@@ -1,4 +1,5 @@
 <?php
+// Home page - shows active and upcoming elections
 session_start();
 require 'config/db.php';
 $page_title = 'Login';
@@ -64,12 +65,3 @@ require 'includes/header.php';
   </div>
 </div>
 <?php require 'includes/footer.php'; ?>
-```
-
----
-
-## After Fixing Both Files
-
-Test the site:
-```
-http://localhost/voting_system/index.php
