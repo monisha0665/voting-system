@@ -1,4 +1,5 @@
 <?php
+// Vote page - one vote per user enforcement
 session_start();
 require 'config/db.php';
 require 'includes/auth_guard.php';
