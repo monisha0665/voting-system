@@ -1,4 +1,5 @@
 <?php
+// Auth guard - protect pages from unauthorized access
 function require_login() {
     if (session_status() === PHP_SESSION_NONE) session_start();
     if (empty($_SESSION['user_id'])) {
