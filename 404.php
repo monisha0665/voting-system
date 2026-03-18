@@ -1,4 +1,5 @@
 <?php
+// 404 - friendly error page
 $page_title = 'Page Not Found';
 require 'includes/header.php';
 ?>
