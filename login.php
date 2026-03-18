@@ -58,10 +58,10 @@ require 'includes/header.php';
     New here?
     <a href="signup.php" class="text-indigo-600 hover:underline">Create an account</a>
   </p>
-  <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+    <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
     <p class="text-xs text-gray-500 font-semibold mb-1">Admin test account:</p>
     <p class="text-xs text-gray-400">Email: admin@voteapp.com</p>
-    <p class="text-xs text-gray-400">Password: Admin@123</p>
-  </div>
+    <p class="text-xs text-gray-400">Password: password</p>
+    </div>
 </div>
 <?php require 'includes/footer.php'; ?>
