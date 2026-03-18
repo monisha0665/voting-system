@@ -1,4 +1,5 @@
 <?php
+// API - returns JSON vote data for Chart.js
 require '../config/db.php';
 header('Content-Type: application/json');
 
