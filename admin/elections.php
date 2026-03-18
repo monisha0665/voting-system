@@ -1,4 +1,5 @@
 <?php
+// Admin elections - create edit delete
 session_start();
 require '../config/db.php';
 require '../includes/auth_guard.php';
