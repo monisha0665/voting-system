@@ -26,7 +26,7 @@ A secure online voting system built with PHP, MySQL and Tailwind CSS.
 
 ## Admin Account
 - Email: admin@voteapp.com
-- Password: Admin@123
+- Password: password
 
 ## Security
 - Passwords hashed with bcrypt
