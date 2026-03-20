@@ -57,43 +57,50 @@
     </a>
 
     <!-- Desktop menu -->
-    <div class="hidden md:flex items-center gap-4 text-sm">
+   
+<div class="hidden md:flex items-center gap-4 text-sm">
+  <button onclick="toggleDarkMode()"
+          id="theme-toggle"
+          class="text-white hover:text-yellow-300 text-xl transition"
+          title="Toggle dark mode">
+    🌙
+  </button>
 
-      <!-- Dark Mode Toggle -->
-      <button onclick="toggleDarkMode()"
-              id="theme-toggle"
-              class="text-white hover:text-indigo-200 text-xl"
-              title="Toggle dark mode">
-        🌙
-      </button>
-
-      <?php if (isset($_SESSION['user_id'])): ?>
-        <a href="/voting_system/index.php"
-           class="hover:text-indigo-200">Home</a>
-        <a href="/voting_system/profile.php"
-           class="hover:text-indigo-200">My Profile</a>
-        <?php if ($_SESSION['role'] === 'admin'): ?>
-          <a href="/voting_system/admin/dashboard.php"
-             class="bg-yellow-400 text-gray-900 px-3 py-1 rounded-full
-                    font-semibold hover:bg-yellow-300">
-             Admin
-          </a>
-        <?php endif; ?>
-        <a href="/voting_system/logout.php"
-           class="bg-white text-indigo-700 px-3 py-1 rounded-full
-                  font-semibold hover:bg-indigo-100">
-           Logout
-        </a>
-      <?php else: ?>
-        <a href="/voting_system/login.php"
-           class="hover:text-indigo-200">Login</a>
-        <a href="/voting_system/signup.php"
-           class="bg-white text-indigo-700 px-3 py-1 rounded-full
-                  font-semibold hover:bg-indigo-100">
-           Sign Up
-        </a>
-      <?php endif; ?>
-    </div>
+  <?php if (isset($_SESSION['user_id'])): ?>
+    <a href="/voting_system/index.php"
+       class="text-white hover:text-indigo-200 font-medium transition">
+       🏠 Home
+    </a>
+    <a href="/voting_system/profile.php"
+       class="text-white hover:text-indigo-200 font-medium transition">
+       👤 My Profile
+    </a>
+    <?php if ($_SESSION['role'] === 'admin'): ?>
+      <a href="/voting_system/admin/dashboard.php"
+         class="bg-yellow-400 hover:bg-yellow-300 text-gray-900
+                px-4 py-2 rounded-full font-bold transition shadow-md">
+         ⚙️ Admin
+      </a>
+    <?php endif; ?>
+    <a href="/voting_system/logout.php"
+       class="bg-red-500 hover:bg-red-600 text-white px-4 py-2
+              rounded-full font-bold transition shadow-md
+              border-2 border-red-400 hover:border-red-500">
+       🚪 Logout
+    </a>
+  <?php else: ?>
+    <a href="/voting_system/login.php"
+       class="bg-indigo-500 hover:bg-indigo-400 text-white
+              px-4 py-2 rounded-full font-bold transition">
+       🔑 Login
+    </a>
+    <a href="/voting_system/signup.php"
+       class="bg-yellow-400 hover:bg-yellow-300 text-gray-900
+              px-4 py-2 rounded-full font-bold transition shadow-md">
+       ✨ Sign Up
+    </a>
+  <?php endif; ?>
+</div>
 
     <!-- Mobile hamburger -->
     <button onclick="document.getElementById('mobile-menu')
@@ -106,7 +113,7 @@
       </svg>
     </button>
   </div>
-  
+
   <div id="mobile-menu"
        class="hidden md:hidden bg-indigo-800 px-4 pb-4 space-y-2 text-sm">
     <button onclick="toggleDarkMode()"
@@ -123,10 +130,16 @@
            class="block py-2 text-yellow-300">⚙️ Admin Dashboard</a>
       <?php endif; ?>
       <a href="/voting_system/logout.php"
-         class="block py-2 text-red-300">🚪 Logout</a>
+   class="block py-2 px-3 mt-2 bg-red-500 hover:bg-red-600
+          text-white rounded-xl font-bold text-center transition">
+   🚪 Logout
+</a>
     <?php else: ?>
       <a href="/voting_system/login.php"
-         class="block py-2 hover:text-indigo-200">🔑 Login</a>
+   class="bg-indigo-500 hover:bg-indigo-400 text-white
+          px-4 py-2 rounded-full font-bold transition">
+   🔑 Login
+</a>
       <a href="/voting_system/signup.php"
          class="block py-2 hover:text-indigo-200">✨ Sign Up</a>
     <?php endif; ?>
