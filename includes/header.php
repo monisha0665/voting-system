@@ -67,14 +67,16 @@
   </button>
 
   <?php if (isset($_SESSION['user_id'])): ?>
-    <a href="/voting_system/index.php"
-       class="text-white hover:text-indigo-200 font-medium transition">
-       🏠 Home
-    </a>
-    <a href="/voting_system/profile.php"
-       class="text-white hover:text-indigo-200 font-medium transition">
-       👤 My Profile
-    </a>
+<a href="/voting_system/index.php"
+   class="bg-purple-500 hover:bg-purple-400 text-white px-4 py-2
+          rounded-full font-bold transition shadow-md">
+   🏠 Home
+</a>
+<a href="/voting_system/profile.php"
+   class="bg-green-500 hover:bg-green-400 text-white px-4 py-2
+          rounded-full font-bold transition shadow-md">
+   👤 My Profile
+</a>
     <?php if ($_SESSION['role'] === 'admin'): ?>
       <a href="/voting_system/admin/dashboard.php"
          class="bg-yellow-400 hover:bg-yellow-300 text-gray-900
