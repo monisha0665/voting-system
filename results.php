@@ -203,55 +203,62 @@ async function loadResults() {
             }
           },
           scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                stepSize: 1,
-                color: tickColor,
-                font: {
-                  size: 13,
-                  weight: 'bold'
-                }
-              },
-              grid: {
-                color: gridColor,
-                lineWidth: 1,
-              },
-              border: {
-                color: gridColor
-              }
+    y: {
+        beginAtZero: true,
+        ticks: {
+            stepSize: 1,
+            color: tickColor,
+            font: {
+                size: 13,
+                weight: 'bold'
+            }
+        },
+        grid: {
+            color: dark ? 'rgba(255,255,255,0.15)' : 'rgba(79,70,229,0.12)',
+            lineWidth: 1.5,
+            drawTicks: true,
+            tickLength: 8,
+            tickColor: dark ? '#818cf8' : '#4f46e5',
+        },
+        border: {
+            color: dark ? '#818cf8' : '#4f46e5',
+            width: 2,
+            dash: [],
+        }
+    },
+    x: {
+        ticks: {
+            color: tickColor,
+            font: {
+                size: 12,
+                weight: 'bold'
             },
-            x: {
-              ticks: {
-                color: tickColor,
-                font: {
-                  size: 12,
-                  weight: 'bold'
-                },
-          
-                maxRotation: 0,
-                minRotation: 0,
-            
-                callback: function(value, index) {
-                  const name = labels[index];
-                  // Split name into 2 lines if too long
-                  const words = name.split(' ');
-                  if (words.length <= 2) return name;
-                  const mid = Math.ceil(words.length / 2);
-                  return [
+            maxRotation: 0,
+            minRotation: 0,
+            padding: 8,
+            callback: function(value, index) {
+                const name = labels[index];
+                const words = name.split(' ');
+                if (words.length <= 2) return name;
+                const mid = Math.ceil(words.length / 2);
+                return [
                     words.slice(0, mid).join(' '),
                     words.slice(mid).join(' ')
-                  ];
-                }
-              },
-              grid: {
-                display: false
-              },
-              border: {
-                color: gridColor
-              }
+                ];
             }
-          }
+        },
+        grid: {
+            display: true,
+            color: dark ? 'rgba(255,255,255,0.05)' : 'rgba(79,70,229,0.06)',
+            lineWidth: 1,
+        },
+        border: {
+            color: dark ? '#818cf8' : '#4f46e5',
+            width: 2,
+            dash: [],
+        }
+    }
+}
         }
       });
     } else {
