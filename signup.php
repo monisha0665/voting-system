@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'config/db.php';
+require 'includes/get_ip.php';
 $page_title = 'Sign Up';
 $error = '';
 $success = '';
@@ -25,12 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $hashed = password_hash($password, PASSWORD_DEFAULT);
             $token  = bin2hex(random_bytes(32));
 
+            $ip = get_ip_address();
             $stmt = $pdo->prepare(
-                "INSERT INTO users (name, email, password, verify_token, is_verified)
-                 VALUES (?, ?, ?, ?, 1)"
+            "INSERT INTO users (name, email, password, verify_token, is_verified, ip_address)
+              VALUES (?, ?, ?, ?, 1, ?)"
             );
-            $stmt->execute([$name, $email, $hashed, $token]);
-
+            $stmt->execute([$name, $email, $hashed, $token, $ip]);
             $_SESSION['user_id'] = $pdo->lastInsertId();
             $_SESSION['name']    = $name;
             $_SESSION['role']    = 'user';
