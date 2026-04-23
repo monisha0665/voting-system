@@ -94,13 +94,160 @@ require '../includes/header.php';
                 <a href="../results.php?id=<?= $e['id'] ?>"
                    class="text-green-600 hover:underline">Results</a>
               </div>
+   <!-- IP Address Tracking Table -->
+<div class="mt-8">
+  <h2 class="text-xl font-bold text-gray-700 mb-4">
+    🌐 IP Address Tracking — Votes
+  </h2>
+  <div class="bg-white rounded-2xl shadow overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-indigo-600 text-white text-sm">
+        <tr>
+          <th class="px-5 py-4 text-left font-bold">Voter Name</th>
+          <th class="px-5 py-4 text-left font-bold">Email</th>
+          <th class="px-5 py-4 text-left font-bold">Election</th>
+          <th class="px-5 py-4 text-left font-bold">Candidate</th>
+          <th class="px-5 py-4 text-left font-bold">IP Address</th>
+          <th class="px-5 py-4 text-left font-bold">Voted At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        $votes = $pdo->query("
+            SELECT v.*, u.name as voter_name, u.email,
+                   e.title as election_title,
+                   c.name as candidate_name,
+                   v.ip_address
+            FROM votes v
+            JOIN users u ON v.user_id = u.id
+            JOIN elections e ON v.election_id = e.id
+            JOIN candidates c ON v.candidate_id = c.id
+            ORDER BY v.voted_at DESC
+        ")->fetchAll();
+
+        // Colors for each election row
+        $row_colors = [
+            'bg-purple-50',
+            'bg-green-50',
+            'bg-blue-50',
+            'bg-pink-50',
+            'bg-yellow-50',
+            'bg-teal-50',
+        ];
+        $i = 0;
+        ?>
+        <?php if (empty($votes)): ?>
+          <tr>
+            <td colspan="6"
+                class="px-5 py-10 text-center text-gray-400 text-base">
+              No votes cast yet.
             </td>
           </tr>
-          <?php endforeach; ?>
+        <?php else: ?>
+          <?php foreach ($votes as $v): ?>
+          <tr class="<?= $row_colors[$i % count($row_colors)] ?>
+                     border-b border-gray-100 hover:brightness-95 transition">
+            <td class="px-5 py-4 font-bold text-gray-800 text-sm">
+              <?= htmlspecialchars($v['voter_name']) ?>
+            </td>
+            <td class="px-5 py-4 text-gray-600 text-sm">
+              <?= htmlspecialchars($v['email']) ?>
+            </td>
+            <td class="px-5 py-4 text-sm">
+              <span class="bg-indigo-100 text-indigo-800 px-3 py-1
+                           rounded-full font-semibold text-xs">
+                <?= htmlspecialchars($v['election_title']) ?>
+              </span>
+            </td>
+            <td class="px-5 py-4 font-semibold text-gray-700 text-sm">
+              <?= htmlspecialchars($v['candidate_name']) ?>
+            </td>
+            <td class="px-5 py-4">
+              <span class="bg-indigo-600 text-white px-3 py-2
+                           rounded-lg text-sm font-bold tracking-wide">
+                🌐 <?= htmlspecialchars($v['ip_address'] ?? 'Unknown') ?>
+              </span>
+            </td>
+            <td class="px-5 py-4 text-gray-600 text-sm font-medium">
+              <?= date('M d, Y', strtotime($v['voted_at'])) ?>
+              <br>
+              <span class="text-xs text-gray-400">
+                <?= date('h:i A', strtotime($v['voted_at'])) ?>
+              </span>
+            </td>
+          </tr>
+          <?php $i++; endforeach; ?>
         <?php endif; ?>
       </tbody>
     </table>
   </div>
 </div>
 
-<?php require '../includes/footer.php'; ?>
+<!-- User Registration IP Tracking -->
+<div class="mt-8 mb-8">
+  <h2 class="text-xl font-bold text-gray-700 mb-4">
+    👥 User Registration IP Tracking
+  </h2>
+  <div class="bg-white rounded-2xl shadow overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-purple-600 text-white text-sm">
+        <tr>
+          <th class="px-5 py-4 text-left font-bold">Name</th>
+          <th class="px-5 py-4 text-left font-bold">Email</th>
+          <th class="px-5 py-4 text-left font-bold">Role</th>
+          <th class="px-5 py-4 text-left font-bold">IP Address</th>
+          <th class="px-5 py-4 text-left font-bold">Registered At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        $users = $pdo->query("
+            SELECT * FROM users ORDER BY created_at DESC
+        ")->fetchAll();
+
+        $user_colors = [
+            'bg-purple-50',
+            'bg-green-50',
+            'bg-blue-50',
+            'bg-pink-50',
+            'bg-teal-50',
+            'bg-yellow-50',
+        ];
+        $j = 0;
+        ?>
+        <?php foreach ($users as $u): ?>
+        <tr class="<?= $user_colors[$j % count($user_colors)] ?>
+                   border-b border-gray-100 hover:brightness-95 transition">
+          <td class="px-5 py-4 font-bold text-gray-800 text-sm">
+            <?= htmlspecialchars($u['name']) ?>
+          </td>
+          <td class="px-5 py-4 text-gray-600 text-sm">
+            <?= htmlspecialchars($u['email']) ?>
+          </td>
+          <td class="px-5 py-4">
+            <span class="px-3 py-1 rounded-full text-sm font-bold
+              <?= $u['role'] === 'admin'
+                  ? 'bg-yellow-400 text-yellow-900'
+                  : 'bg-green-400 text-green-900' ?>">
+              <?= ucfirst($u['role']) ?>
+            </span>
+          </td>
+          <td class="px-5 py-4">
+            <span class="bg-purple-600 text-white px-3 py-2
+                         rounded-lg text-sm font-bold tracking-wide">
+              🌐 <?= htmlspecialchars($u['ip_address'] ?? 'Unknown') ?>
+            </span>
+          </td>
+          <td class="px-5 py-4 text-gray-600 text-sm font-medium">
+            <?= date('M d, Y', strtotime($u['created_at'])) ?>
+            <br>
+            <span class="text-xs text-gray-400">
+              <?= date('h:i A', strtotime($u['created_at'])) ?>
+            </span>
+          </td>
+        </tr>
+        <?php $j++; endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+</div>
