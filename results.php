@@ -101,22 +101,22 @@ require 'includes/header.php';
   <?php if ($election['status'] === 'closed'
             && $winner
             && $winner['votes'] > 0): ?>
-  <div class="bg-gradient-to-r from-yellow-400 to-orange-400
-              rounded-2xl p-6 mb-6 text-center shadow-lg">
-    <div class="text-5xl mb-2">🏆</div>
-    <h2 class="text-2xl font-bold text-white mb-1">
-      Election Winner!
-    </h2>
-    <p class="text-yellow-100 mb-3">This election has ended</p>
-    <div class="bg-white rounded-xl px-6 py-4 inline-block">
-      <p class="text-3xl font-bold text-orange-600">
-        <?= htmlspecialchars($winner['name']) ?>
-      </p>
-      <p class="text-gray-500 mt-1">
-        Won with <strong><?= $winner['votes'] ?></strong> votes
-      </p>
-    </div>
+  <div class="bg-gradient-to-r from-blue-700 to-blue-500
+            rounded-2xl p-6 mb-6 text-center shadow-lg">
+  <div class="text-5xl mb-2">🏆</div>
+  <h2 class="text-2xl font-bold text-white mb-1">
+    Election Winner!
+  </h2>
+  <p class="text-blue-100 mb-3">This election has ended</p>
+  <div class="bg-white rounded-xl px-6 py-4 inline-block">
+    <p class="text-3xl font-bold text-blue-700">
+      <?= htmlspecialchars($winner['name']) ?>
+    </p>
+    <p class="text-gray-500 mt-1">
+      Won with <strong><?= $winner['votes'] ?></strong> votes
+    </p>
   </div>
+</div>
 
   <?php elseif ($election['status'] === 'active'): ?>
   <div class="bg-green-50 border border-green-200 rounded-2xl
