@@ -45,9 +45,22 @@ require '../includes/header.php';
   <div class="flex items-center justify-between mb-4">
     <h2 class="text-lg font-bold text-gray-700">Manage Elections</h2>
     <a href="elections.php?action=create"
-       class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 text-sm font-semibold">
+       class="bg-indigo-600 text-white px-4 py-2 rounded-lg
+              hover:bg-indigo-700 text-sm font-semibold">
       + New Election
     </a>
+    <div class="flex gap-3">
+  <a href="announcements.php"
+     class="bg-purple-600 text-white px-4 py-2 rounded-lg
+            hover:bg-purple-700 text-sm font-semibold">
+    📢 Announcements
+  </a>
+  <a href="elections.php?action=create"
+     class="bg-indigo-600 text-white px-4 py-2 rounded-lg
+            hover:bg-indigo-700 text-sm font-semibold">
+    + New Election
+  </a>
+</div>
   </div>
 
   <div class="bg-white rounded-2xl shadow overflow-hidden mb-8">
@@ -64,19 +77,24 @@ require '../includes/header.php';
       <tbody class="divide-y divide-gray-100">
         <?php if (empty($elections)): ?>
           <tr>
-            <td colspan="5" class="px-4 py-8 text-center text-gray-400">
+            <td colspan="5"
+                class="px-4 py-8 text-center text-gray-400">
               No elections yet. Create one!
             </td>
           </tr>
         <?php else: ?>
           <?php foreach ($elections as $e): ?>
           <tr class="hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium"><?= htmlspecialchars($e['title']) ?></td>
+            <td class="px-4 py-3 font-medium">
+              <?= htmlspecialchars($e['title']) ?>
+            </td>
             <td class="px-4 py-3">
               <span class="px-2 py-1 rounded-full text-xs font-semibold
-                <?= $e['status'] === 'active'   ? 'bg-green-100 text-green-700'  :
-                   ($e['status'] === 'upcoming' ? 'bg-blue-100 text-blue-700'    :
-                                                  'bg-gray-100 text-gray-500') ?>">
+                <?= $e['status'] === 'active'
+                    ? 'bg-green-100 text-green-700'
+                    : ($e['status'] === 'upcoming'
+                        ? 'bg-blue-100 text-blue-700'
+                        : 'bg-gray-100 text-gray-500') ?>">
                 <?= ucfirst($e['status']) ?>
               </span>
             </td>
@@ -85,169 +103,188 @@ require '../includes/header.php';
             <td class="px-4 py-3">
               <div class="flex gap-3">
                 <a href="candidates.php?election_id=<?= $e['id'] ?>"
-                   class="text-indigo-600 hover:underline">Candidates</a>
+                   class="text-indigo-600 hover:underline font-medium">
+                   Candidates
+                </a>
                 <a href="elections.php?action=edit&id=<?= $e['id'] ?>"
-                   class="text-yellow-600 hover:underline">Edit</a>
+                   class="text-yellow-600 hover:underline font-medium">
+                   Edit
+                </a>
                 <a href="elections.php?action=delete&id=<?= $e['id'] ?>"
-                   onclick="return confirm('Delete this election and all its votes?')"
-                   class="text-red-500 hover:underline">Delete</a>
+                   onclick="return confirm('Delete this election?')"
+                   class="text-red-500 hover:underline font-medium">
+                   Delete
+                </a>
                 <a href="../results.php?id=<?= $e['id'] ?>"
-                   class="text-green-600 hover:underline">Results</a>
+                   class="text-green-600 hover:underline font-medium">
+                   Results
+                </a>
               </div>
-   <!-- IP Address Tracking Table -->
-<div class="mt-8">
-  <h2 class="text-xl font-bold text-gray-700 mb-4">
-    🌐 IP Address Tracking — Votes
-  </h2>
-  <div class="bg-white rounded-2xl shadow overflow-hidden">
-    <table class="w-full text-sm">
-      <thead class="bg-indigo-600 text-white text-sm">
-        <tr>
-          <th class="px-5 py-4 text-left font-bold">Voter Name</th>
-          <th class="px-5 py-4 text-left font-bold">Email</th>
-          <th class="px-5 py-4 text-left font-bold">Election</th>
-          <th class="px-5 py-4 text-left font-bold">Candidate</th>
-          <th class="px-5 py-4 text-left font-bold">IP Address</th>
-          <th class="px-5 py-4 text-left font-bold">Voted At</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        $votes = $pdo->query("
-            SELECT v.*, u.name as voter_name, u.email,
-                   e.title as election_title,
-                   c.name as candidate_name,
-                   v.ip_address
-            FROM votes v
-            JOIN users u ON v.user_id = u.id
-            JOIN elections e ON v.election_id = e.id
-            JOIN candidates c ON v.candidate_id = c.id
-            ORDER BY v.voted_at DESC
-        ")->fetchAll();
-
-        // Colors for each election row
-        $row_colors = [
-            'bg-purple-50',
-            'bg-green-50',
-            'bg-blue-50',
-            'bg-pink-50',
-            'bg-yellow-50',
-            'bg-teal-50',
-        ];
-        $i = 0;
-        ?>
-        <?php if (empty($votes)): ?>
-          <tr>
-            <td colspan="6"
-                class="px-5 py-10 text-center text-gray-400 text-base">
-              No votes cast yet.
             </td>
           </tr>
-        <?php else: ?>
-          <?php foreach ($votes as $v): ?>
-          <tr class="<?= $row_colors[$i % count($row_colors)] ?>
-                     border-b border-gray-100 hover:brightness-95 transition">
-            <td class="px-5 py-4 font-bold text-gray-800 text-sm">
-              <?= htmlspecialchars($v['voter_name']) ?>
-            </td>
-            <td class="px-5 py-4 text-gray-600 text-sm">
-              <?= htmlspecialchars($v['email']) ?>
-            </td>
-            <td class="px-5 py-4 text-sm">
-              <span class="bg-indigo-100 text-indigo-800 px-3 py-1
-                           rounded-full font-semibold text-xs">
-                <?= htmlspecialchars($v['election_title']) ?>
-              </span>
-            </td>
-            <td class="px-5 py-4 font-semibold text-gray-700 text-sm">
-              <?= htmlspecialchars($v['candidate_name']) ?>
-            </td>
-            <td class="px-5 py-4">
-              <span class="bg-indigo-600 text-white px-3 py-2
-                           rounded-lg text-sm font-bold tracking-wide">
-                🌐 <?= htmlspecialchars($v['ip_address'] ?? 'Unknown') ?>
-              </span>
-            </td>
-            <td class="px-5 py-4 text-gray-600 text-sm font-medium">
-              <?= date('M d, Y', strtotime($v['voted_at'])) ?>
-              <br>
-              <span class="text-xs text-gray-400">
-                <?= date('h:i A', strtotime($v['voted_at'])) ?>
-              </span>
-            </td>
-          </tr>
-          <?php $i++; endforeach; ?>
+          <?php endforeach; ?>
         <?php endif; ?>
       </tbody>
     </table>
   </div>
-</div>
 
-<!-- User Registration IP Tracking -->
-<div class="mt-8 mb-8">
-  <h2 class="text-xl font-bold text-gray-700 mb-4">
-    👥 User Registration IP Tracking
-  </h2>
-  <div class="bg-white rounded-2xl shadow overflow-hidden">
-    <table class="w-full text-sm">
-      <thead class="bg-purple-600 text-white text-sm">
-        <tr>
-          <th class="px-5 py-4 text-left font-bold">Name</th>
-          <th class="px-5 py-4 text-left font-bold">Email</th>
-          <th class="px-5 py-4 text-left font-bold">Role</th>
-          <th class="px-5 py-4 text-left font-bold">IP Address</th>
-          <th class="px-5 py-4 text-left font-bold">Registered At</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        $users = $pdo->query("
-            SELECT * FROM users ORDER BY created_at DESC
-        ")->fetchAll();
+  <!-- IP Address Tracking Table -->
+  <div class="mt-8">
+    <h2 class="text-xl font-bold text-gray-700 mb-4">
+      🌐 IP Address Tracking — Votes
+    </h2>
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-indigo-600 text-white text-sm">
+          <tr>
+            <th class="px-5 py-4 text-left font-bold">Voter Name</th>
+            <th class="px-5 py-4 text-left font-bold">Email</th>
+            <th class="px-5 py-4 text-left font-bold">Election</th>
+            <th class="px-5 py-4 text-left font-bold">Candidate</th>
+            <th class="px-5 py-4 text-left font-bold">IP Address</th>
+            <th class="px-5 py-4 text-left font-bold">Voted At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $votes_ip = $pdo->query("
+              SELECT v.*, u.name as voter_name, u.email,
+                     e.title as election_title,
+                     c.name as candidate_name,
+                     v.ip_address
+              FROM votes v
+              JOIN users u ON v.user_id = u.id
+              JOIN elections e ON v.election_id = e.id
+              JOIN candidates c ON v.candidate_id = c.id
+              ORDER BY v.voted_at DESC
+          ")->fetchAll();
 
-        $user_colors = [
-            'bg-purple-50',
-            'bg-green-50',
-            'bg-blue-50',
-            'bg-pink-50',
-            'bg-teal-50',
-            'bg-yellow-50',
-        ];
-        $j = 0;
-        ?>
-        <?php foreach ($users as $u): ?>
-        <tr class="<?= $user_colors[$j % count($user_colors)] ?>
-                   border-b border-gray-100 hover:brightness-95 transition">
-          <td class="px-5 py-4 font-bold text-gray-800 text-sm">
-            <?= htmlspecialchars($u['name']) ?>
-          </td>
-          <td class="px-5 py-4 text-gray-600 text-sm">
-            <?= htmlspecialchars($u['email']) ?>
-          </td>
-          <td class="px-5 py-4">
-            <span class="px-3 py-1 rounded-full text-sm font-bold
-              <?= $u['role'] === 'admin'
-                  ? 'bg-yellow-400 text-yellow-900'
-                  : 'bg-green-400 text-green-900' ?>">
-              <?= ucfirst($u['role']) ?>
-            </span>
-          </td>
-          <td class="px-5 py-4">
-            <span class="bg-purple-600 text-white px-3 py-2
-                         rounded-lg text-sm font-bold tracking-wide">
-              🌐 <?= htmlspecialchars($u['ip_address'] ?? 'Unknown') ?>
-            </span>
-          </td>
-          <td class="px-5 py-4 text-gray-600 text-sm font-medium">
-            <?= date('M d, Y', strtotime($u['created_at'])) ?>
-            <br>
-            <span class="text-xs text-gray-400">
-              <?= date('h:i A', strtotime($u['created_at'])) ?>
-            </span>
-          </td>
-        </tr>
-        <?php $j++; endforeach; ?>
-      </tbody>
-    </table>
+          $row_colors = [
+              'bg-purple-50',
+              'bg-green-50',
+              'bg-blue-50',
+              'bg-pink-50',
+              'bg-yellow-50',
+              'bg-teal-50',
+          ];
+          $i = 0;
+          ?>
+          <?php if (empty($votes_ip)): ?>
+            <tr>
+              <td colspan="6"
+                  class="px-5 py-10 text-center text-gray-400 text-base">
+                No votes cast yet.
+              </td>
+            </tr>
+          <?php else: ?>
+            <?php foreach ($votes_ip as $v): ?>
+            <tr class="<?= $row_colors[$i % count($row_colors)] ?>
+                       border-b border-gray-100 hover:brightness-95 transition">
+              <td class="px-5 py-4 font-bold text-gray-800 text-sm">
+                <?= htmlspecialchars($v['voter_name']) ?>
+              </td>
+              <td class="px-5 py-4 text-gray-600 text-sm">
+                <?= htmlspecialchars($v['email']) ?>
+              </td>
+              <td class="px-5 py-4 text-sm">
+                <span class="bg-indigo-100 text-indigo-800 px-3 py-1
+                             rounded-full font-semibold text-xs">
+                  <?= htmlspecialchars($v['election_title']) ?>
+                </span>
+              </td>
+              <td class="px-5 py-4 font-semibold text-gray-700 text-sm">
+                <?= htmlspecialchars($v['candidate_name']) ?>
+              </td>
+              <td class="px-5 py-4">
+                <span class="bg-indigo-600 text-white px-3 py-2
+                             rounded-lg text-sm font-bold tracking-wide">
+                  🌐 <?= htmlspecialchars($v['ip_address'] ?? 'Unknown') ?>
+                </span>
+              </td>
+              <td class="px-5 py-4 text-gray-600 text-sm font-medium">
+                <?= date('M d, Y', strtotime($v['voted_at'])) ?>
+                <br>
+                <span class="text-xs text-gray-400">
+                  <?= date('h:i A', strtotime($v['voted_at'])) ?>
+                </span>
+              </td>
+            </tr>
+            <?php $i++; endforeach; ?>
+          <?php endif; ?>
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  <!-- User Registration IP Tracking -->
+  <div class="mt-8 mb-8">
+    <h2 class="text-xl font-bold text-gray-700 mb-4">
+      👥 User Registration IP Tracking
+    </h2>
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-purple-600 text-white text-sm">
+          <tr>
+            <th class="px-5 py-4 text-left font-bold">Name</th>
+            <th class="px-5 py-4 text-left font-bold">Email</th>
+            <th class="px-5 py-4 text-left font-bold">Role</th>
+            <th class="px-5 py-4 text-left font-bold">IP Address</th>
+            <th class="px-5 py-4 text-left font-bold">Registered At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $users_ip = $pdo->query("
+              SELECT * FROM users ORDER BY created_at DESC
+          ")->fetchAll();
+
+          $user_colors = [
+              'bg-purple-50',
+              'bg-green-50',
+              'bg-blue-50',
+              'bg-pink-50',
+              'bg-teal-50',
+              'bg-yellow-50',
+          ];
+          $j = 0;
+          ?>
+          <?php foreach ($users_ip as $u): ?>
+          <tr class="<?= $user_colors[$j % count($user_colors)] ?>
+                     border-b border-gray-100 hover:brightness-95 transition">
+            <td class="px-5 py-4 font-bold text-gray-800 text-sm">
+              <?= htmlspecialchars($u['name']) ?>
+            </td>
+            <td class="px-5 py-4 text-gray-600 text-sm">
+              <?= htmlspecialchars($u['email']) ?>
+            </td>
+            <td class="px-5 py-4">
+              <span class="px-3 py-1 rounded-full text-sm font-bold
+                <?= $u['role'] === 'admin'
+                    ? 'bg-yellow-400 text-yellow-900'
+                    : 'bg-green-400 text-green-900' ?>">
+                <?= ucfirst($u['role']) ?>
+              </span>
+            </td>
+            <td class="px-5 py-4">
+              <span class="bg-purple-600 text-white px-3 py-2
+                           rounded-lg text-sm font-bold tracking-wide">
+                🌐 <?= htmlspecialchars($u['ip_address'] ?? 'Unknown') ?>
+              </span>
+            </td>
+            <td class="px-5 py-4 text-gray-600 text-sm font-medium">
+              <?= date('M d, Y', strtotime($u['created_at'])) ?>
+              <br>
+              <span class="text-xs text-gray-400">
+                <?= date('h:i A', strtotime($u['created_at'])) ?>
+              </span>
+            </td>
+          </tr>
+          <?php $j++; endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
+
+<?php require '../includes/footer.php'; ?>
