@@ -200,3 +200,54 @@ function clearSearch() {
 </script>
 
 <?php require 'includes/footer.php'; ?>
+<!-- Announcements Section -->
+<?php
+$announcements = $pdo->query("
+    SELECT * FROM announcements
+    WHERE is_active = 1
+    ORDER BY created_at DESC
+")->fetchAll();
+
+$ann_styles = [
+    'info'    => 'bg-blue-50 border-blue-400 text-blue-800',
+    'success' => 'bg-green-50 border-green-400 text-green-800',
+    'warning' => 'bg-yellow-50 border-yellow-400 text-yellow-800',
+    'danger'  => 'bg-red-50 border-red-400 text-red-800',
+];
+$ann_icons = [
+    'info'    => 'ℹ️',
+    'success' => '✅',
+    'warning' => '⚠️',
+    'danger'  => '🚨',
+];
+
+if (!empty($announcements)): ?>
+<div class="mb-6 space-y-3">
+  <?php foreach ($announcements as $ann): ?>
+  <?php
+  $style = $ann_styles[$ann['type']] ?? 'bg-blue-50 border-blue-400 text-blue-800';
+  $icon  = $ann_icons[$ann['type']] ?? 'ℹ️';
+  ?>
+  <div class="border-l-4 rounded-xl px-5 py-4 <?= $style ?>
+              flex items-start gap-3 shadow-sm">
+    <span class="text-2xl shrink-0"><?= $icon ?></span>
+    <div class="flex-1">
+      <p class="font-bold text-base">
+        <?= htmlspecialchars($ann['title']) ?>
+      </p>
+      <p class="text-sm mt-1 opacity-80">
+        <?= htmlspecialchars($ann['message']) ?>
+      </p>
+      <p class="text-xs opacity-60 mt-1">
+        <?= date('M d, Y h:i A', strtotime($ann['created_at'])) ?>
+      </p>
+    </div>
+    <!-- Dismiss Button -->
+    <button onclick="this.closest('.border-l-4').remove()"
+            class="text-lg opacity-50 hover:opacity-100 shrink-0">
+      ✕
+    </button>
+  </div>
+  <?php endforeach; ?>
+</div>
+<?php endif; ?>
