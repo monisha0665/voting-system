@@ -119,6 +119,18 @@ require '../includes/header.php';
                    class="text-green-600 hover:underline font-medium">
                    Results
                 </a>
+                <a href="../results.php?id=<?= $e['id'] ?>"
+   class="text-green-600 hover:underline font-medium">
+   Results
+</a>
+<a href="export_csv.php?election_id=<?= $e['id'] ?>&type=results"
+   class="text-blue-600 hover:underline font-medium">
+   📥 CSV
+</a>
+<a href="export_csv.php?election_id=<?= $e['id'] ?>&type=voters"
+   class="text-purple-600 hover:underline font-medium">
+   👥 Voters
+</a>
               </div>
             </td>
           </tr>
@@ -130,9 +142,17 @@ require '../includes/header.php';
 
   <!-- IP Address Tracking Table -->
   <div class="mt-8">
-    <h2 class="text-xl font-bold text-gray-700 mb-4">
-      🌐 IP Address Tracking — Votes
-    </h2>
+   <div class="flex items-center justify-between mb-4">
+  <h2 class="text-xl font-bold text-gray-700">
+    🌐 IP Address Tracking — Votes
+  </h2>
+  <a href="export_csv.php?type=all_votes"
+     class="bg-blue-600 hover:bg-blue-700 text-white
+            px-4 py-2 rounded-lg text-sm font-semibold
+            transition flex items-center gap-2">
+    📥 Export All Votes CSV
+  </a>
+</div>
     <div class="bg-white rounded-2xl shadow overflow-hidden">
       <table class="w-full text-sm">
         <thead class="bg-indigo-600 text-white text-sm">
@@ -284,7 +304,84 @@ require '../includes/header.php';
       </table>
     </div>
   </div>
+<!-- Contact Messages -->
+<div class="mt-8 mb-8">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-bold text-gray-700">
+      📬 Contact Messages
+      <?php
+      $unread = $pdo->query(
+          "SELECT COUNT(*) FROM contacts WHERE is_read = 0"
+      )->fetchColumn();
+      if ($unread > 0): ?>
+        <span class="ml-2 bg-red-500 text-white text-xs
+                     px-2 py-1 rounded-full">
+          <?= $unread ?> new
+        </span>
+      <?php endif; ?>
+    </h2>
+  </div>
 
+  <?php
+  $contacts = $pdo->query("
+      SELECT * FROM contacts ORDER BY created_at DESC LIMIT 10
+  ")->fetchAll();
+
+  // Mark all as read
+  $pdo->query("UPDATE contacts SET is_read = 1");
+  ?>
+
+  <?php if (empty($contacts)): ?>
+    <div class="bg-white rounded-2xl shadow p-8 text-center text-gray-400">
+      <p class="text-4xl mb-2">📬</p>
+      <p>No contact messages yet.</p>
+    </div>
+  <?php else: ?>
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-indigo-600 text-white">
+          <tr>
+            <th class="px-5 py-4 text-left font-bold">Name</th>
+            <th class="px-5 py-4 text-left font-bold">Email</th>
+            <th class="px-5 py-4 text-left font-bold">Subject</th>
+            <th class="px-5 py-4 text-left font-bold">Message</th>
+            <th class="px-5 py-4 text-left font-bold">Date</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <?php foreach ($contacts as $c): ?>
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-4 font-bold text-gray-800">
+              <?= htmlspecialchars($c['name']) ?>
+            </td>
+            <td class="px-5 py-4 text-gray-600">
+              <?= htmlspecialchars($c['email']) ?>
+            </td>
+            <td class="px-5 py-4">
+              <span class="bg-indigo-100 text-indigo-700
+                           px-2 py-1 rounded-full text-xs font-semibold">
+                <?= htmlspecialchars($c['subject']) ?>
+              </span>
+            </td>
+            <td class="px-5 py-4 text-gray-600 max-w-xs">
+              <p class="truncate">
+                <?= htmlspecialchars($c['message']) ?>
+              </p>
+            </td>
+            <td class="px-5 py-4 text-gray-500 text-xs">
+              <?= date('M d, Y', strtotime($c['created_at'])) ?>
+              <br>
+              <span class="text-gray-400">
+                <?= date('h:i A', strtotime($c['created_at'])) ?>
+              </span>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  <?php endif; ?>
+</div>
 </div>
 
 <?php require '../includes/footer.php'; ?>
