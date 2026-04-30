@@ -89,22 +89,13 @@
     .dark .text-gray-900 { color: #f1f5f9 !important; }
     .dark .text-gray-800 { color: #e2e8f0 !important; }
     .dark .text-gray-700 { color: #cbd5e1 !important; }
-    .dark .text-gray-600 { color: #cbd5e1 !important; }
-    .dark .text-gray-500 { color: #94a3b8 !important; }
-    .dark .text-gray-400 { color: #64748b !important; }
+    .dark .text-gray-600 { color: #94a3b8 !important; }
+    .dark .text-gray-500 { color: #64748b !important; }
+    .dark .text-gray-400 { color: #475569 !important; }
 
     /* Indigo text stays visible */
     .dark .text-indigo-700 { color: #818cf8 !important; }
     .dark .text-indigo-600 { color: #6366f1 !important; }
-    .dark .text-indigo-800 { color: #a5b4fc !important; }
-
-    /* Table body defaults in dark mode */
-    .dark tbody td { color: #dbeafe; }
-    .dark tbody td .text-gray-800 { color: #f1f5f9 !important; }
-    .dark tbody td .text-gray-700 { color: #e2e8f0 !important; }
-    .dark tbody td .text-gray-600 { color: #cbd5e1 !important; }
-    .dark tbody td .text-gray-500 { color: #a8b5c9 !important; }
-    .dark tbody td .text-gray-400 { color: #8fa1ba !important; }
 
     /* Borders */
     .dark .border-gray-100 { border-color: rgba(99,102,241,0.15) !important; }
@@ -175,9 +166,12 @@
     .dark .text-slate-900 { color: #e2e8f0 !important; }
 
     /* Announcement readability in dark mode */
+    .dark .announcement-item { color: #e2e8f0 !important; }
+    .dark .announcement-item .font-bold { color: #f8fafc !important; }
+    .dark .announcement-item p { color: #dbeafe !important; }
     .dark .announcement-item .opacity-80 { opacity: 1 !important; color: #dbeafe !important; }
-    .dark .announcement-item .opacity-50 { opacity: .9 !important; color: #bfd3ee !important; }
-    .dark .announcement-item .opacity-40 { opacity: .75 !important; }
+    .dark .announcement-item .opacity-50 { opacity: .95 !important; color: #bfd3ee !important; }
+    .dark .announcement-item .opacity-40 { opacity: .85 !important; color: #cbd5e1 !important; }
 
     /* Teal */
     .dark .bg-teal-50 { background: rgba(20,184,166,0.1) !important; }
