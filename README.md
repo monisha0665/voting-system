@@ -257,5 +257,3 @@ Password: Admin@123
 ## 📝 License
 
 This project was built as a final web application project for the Web Development course. 
-
-*Built with ❤️ using PHP + MySQL + Tailwind CSS*
