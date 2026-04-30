@@ -90,7 +90,7 @@ require '../includes/header.php';
                     ? 'bg-green-100 text-green-700'
                     : ($e['status'] === 'upcoming'
                         ? 'bg-blue-100 text-blue-700'
-                        : 'bg-gray-100 text-gray-500') ?>">
+                        : 'bg-red-100 text-red-700') ?>">
                 <?= ucfirst($e['status']) ?>
               </span>
             </td>
@@ -202,7 +202,7 @@ require '../includes/header.php';
                 <?= htmlspecialchars($v['email']) ?>
               </td>
               <td class="px-5 py-4 text-sm font-bold">
-                <span class="bg-indigo-600 text-white px-3 py-1
+                <span class="bg-blue-600 text-white px-3 py-1
                              rounded-full font-semibold text-xs shadow-sm">
                   <?= htmlspecialchars($v['election_title']) ?>
                 </span>
