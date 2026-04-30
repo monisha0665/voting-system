@@ -44,11 +44,7 @@ require '../includes/header.php';
   <!-- Elections Table -->
   <div class="flex items-center justify-between mb-4">
     <h2 class="text-lg font-bold text-gray-700">Manage Elections</h2>
-    <a href="elections.php?action=create"
-       class="bg-indigo-600 text-white px-4 py-2 rounded-lg
-              hover:bg-indigo-700 text-sm font-semibold">
-      + New Election
-    </a>
+   
     <div class="flex gap-3">
   <a href="announcements.php"
      class="bg-purple-600 text-white px-4 py-2 rounded-lg
@@ -102,35 +98,34 @@ require '../includes/header.php';
             <td class="px-4 py-3 text-gray-500"><?= $e['end_date'] ?></td>
             <td class="px-4 py-3">
               <div class="flex gap-3">
-                <a href="candidates.php?election_id=<?= $e['id'] ?>"
-                   class="text-indigo-600 hover:underline font-medium">
-                   Candidates
-                </a>
-                <a href="elections.php?action=edit&id=<?= $e['id'] ?>"
-                   class="text-yellow-600 hover:underline font-medium">
-                   Edit
-                </a>
-                <a href="elections.php?action=delete&id=<?= $e['id'] ?>"
-                   onclick="return confirm('Delete this election?')"
-                   class="text-red-500 hover:underline font-medium">
-                   Delete
-                </a>
-                <a href="../results.php?id=<?= $e['id'] ?>"
-                   class="text-green-600 hover:underline font-medium">
-                   Results
-                </a>
-                <a href="../results.php?id=<?= $e['id'] ?>"
-   class="text-green-600 hover:underline font-medium">
-   Results
-</a>
-<a href="export_csv.php?election_id=<?= $e['id'] ?>&type=results"
-   class="text-blue-600 hover:underline font-medium">
-   📥 CSV
-</a>
-<a href="export_csv.php?election_id=<?= $e['id'] ?>&type=voters"
-   class="text-purple-600 hover:underline font-medium">
-   👥 Voters
-</a>
+               
+               <div class="flex gap-3 flex-wrap">
+  <a href="candidates.php?election_id=<?= $e['id'] ?>"
+     class="text-indigo-600 hover:underline font-medium">
+     Candidates
+  </a>
+  <a href="elections.php?action=edit&id=<?= $e['id'] ?>"
+     class="text-yellow-600 hover:underline font-medium">
+     Edit
+  </a>
+  <a href="elections.php?action=delete&id=<?= $e['id'] ?>"
+     onclick="return confirm('Delete this election?')"
+     class="text-red-500 hover:underline font-medium">
+     Delete
+  </a>
+  <a href="../results.php?id=<?= $e['id'] ?>"
+     class="text-green-600 hover:underline font-medium">
+     Results
+  </a>
+  <a href="export_csv.php?election_id=<?= $e['id'] ?>&type=results"
+     class="text-blue-600 hover:underline font-medium">
+     📥 CSV
+  </a>
+  <a href="export_csv.php?election_id=<?= $e['id'] ?>&type=voters"
+     class="text-purple-600 hover:underline font-medium">
+     👥 Voters
+  </a>
+</div>
               </div>
             </td>
           </tr>
@@ -203,16 +198,16 @@ require '../includes/header.php';
               <td class="px-5 py-4 font-bold text-gray-800 text-sm">
                 <?= htmlspecialchars($v['voter_name']) ?>
               </td>
-              <td class="px-5 py-4 text-gray-600 text-sm">
+              <td class="px-5 py-4 font-bold text-gray-700 text-sm">
                 <?= htmlspecialchars($v['email']) ?>
               </td>
-              <td class="px-5 py-4 text-sm">
-                <span class="bg-indigo-100 text-indigo-800 px-3 py-1
-                             rounded-full font-semibold text-xs">
+              <td class="px-5 py-4 text-sm font-bold">
+                <span class="bg-indigo-600 text-white px-3 py-1
+                             rounded-full font-semibold text-xs shadow-sm">
                   <?= htmlspecialchars($v['election_title']) ?>
                 </span>
               </td>
-              <td class="px-5 py-4 font-semibold text-gray-700 text-sm">
+              <td class="px-5 py-4 font-bold text-gray-800 text-sm">
                 <?= htmlspecialchars($v['candidate_name']) ?>
               </td>
               <td class="px-5 py-4">
@@ -221,10 +216,10 @@ require '../includes/header.php';
                   🌐 <?= htmlspecialchars($v['ip_address'] ?? 'Unknown') ?>
                 </span>
               </td>
-              <td class="px-5 py-4 text-gray-600 text-sm font-medium">
+              <td class="px-5 py-4 text-gray-700 text-sm font-bold">
                 <?= date('M d, Y', strtotime($v['voted_at'])) ?>
                 <br>
-                <span class="text-xs text-gray-400">
+                <span class="text-xs text-gray-500 font-semibold">
                   <?= date('h:i A', strtotime($v['voted_at'])) ?>
                 </span>
               </td>
